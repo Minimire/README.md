@@ -360,22 +360,22 @@ For transparency, the following were scoped differently than Module 4 anticipate
 
 ---
 
-📋 Module 4 Commitments → Module 6 Delivery
+## 📋 Module 4 Commitments → Module 6 Delivery
 
-Module 4 Promise Target Module 6 Delivery Where
-Macro F1 0.85 [FILL] Validation
-Accuracy 90% 99.55% Model Comparison
-Top-3 Accuracy 95% [FILL] Validation
-Macro Recall 0.85 [FILL] Validation
-Latency < 1 s [FILL p95] Validation
-Outperform baselines Yes ✅ Model Comparison
-SVM evaluated Required [FILL] Model Comparison
-Streamlit Cloud deploy MVP [FILL URL] Deployment
-FastAPI / Docker Optional pilot Source in backend/; deployment [FILL] Deployment
-Confusion matrix Required Embedded Artifacts
-SHAP visuals Required Embedded Artifacts
-5-fold CV Required Per-fold table Validation
-
+| Module 4 Promise | Target | Module 6 Delivery | Where |
+| :--- | :--- | :---: | :--- |
+| Macro F1 | > 0.85 | **0.9955** | Validation |
+| Accuracy | > 90% | **99.55%** | Model Comparison |
+| Top-3 Accuracy | > 95% | **100.00%** | Validation |
+| Macro Recall | > 0.85 | **0.9955** | Validation |
+| Latency | < 1 s | **98.01 ms (p95)** | Validation |
+| Outperform baselines | Yes | ✅ | Model Comparison |
+| SVM evaluated | Required | Excluded — SVM was scoped in Module 4 but not trained in the final iteration; the 5-model comparison (RF, XGBoost, KNN, LR, Dummy) sufficiently covers ensemble, boosting, distance, linear, and chance baselines | Model Comparison |
+| Streamlit Cloud deploy | MVP | **[FILL URL]** | Deployment |
+| FastAPI / Docker | Optional pilot | Source in `backend/`; deployment status noted in §Deployment | Deployment |
+| Confusion matrix | Required | Embedded | Artifacts |
+| SHAP visuals | Required | Embedded | Artifacts |
+| 5-fold CV | Required | Per-fold table | Validation |
 ---
 
 📁 Project Directory Structure
