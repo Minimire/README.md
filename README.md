@@ -1,4 +1,4 @@
-# 🌾 Intelligent Crop Recommendation System Using Machine Learning for Precision Agriculture
+ 🌾 Intelligent Crop Recommendation System Using Machine Learning for Precision Agriculture
 
 ### Module 6: Deployment, Validation, Monitoring & Maintenance
 
@@ -10,27 +10,17 @@
 | **Predecessors** | Module 4 Proposal (approved 26 Sep 2026) · Module 5 README (submitted Oct 2026) |
 | **Submission Date** | November 2026 |
 | **Primary Model** | Random Forest Classifier — 99.55% test accuracy |
-| **Live Application** | **[https://www.cloudflare.com/website-terms/]** |
-https://automobile-unsubscribe-feat-considerations.trycloudflare.com/---
+| **Live Application** | **[FILL: Streamlit Cloud URL]** |
+
+---
 
 ## 🔗 Continuity Statement
 
+- **Module 4** defined the problem, target users, dataset, ML task, success criteria, and deployment roadmap. **Note:** §5/§8 specified Optuna for hyperparameter tuning; Module 6 implementation reconciles this to GridSearchCV with documented rationale in *Residual Items & Scope Reconciliation*.
+- **Module 5** delivered the trained Random Forest champion, XGBoost challenger, baseline comparison, Optuna tuning of the challenger, SHAP analysis, and a locally-hosted Streamlit prototype.
+- **Module 6** delivers public deployment, validation against the Module 4 §6 success criteria, and monitoring / maintenance plans for sustained operation.
 
-- **Module 4** defined the problem, target users, dataset, ML task, success
-  criteria, and deployment roadmap. **Note:** §5/§8 specified Optuna for
-  hyperparameter tuning; Module 6 implementation reconciles this to
-  GridSearchCV with documented rationale in *Residual Items & Scope
-  Reconciliation*.
-- **Module 5** delivered the trained Random Forest champion, XGBoost
-  challenger, baseline comparison, Optuna tuning of the challenger, SHAP
-  analysis, and a locally-hosted Streamlit prototype.
-- **Module 6** delivers public deployment, validation against the Module 4
-  §6 success criteria, and monitoring / maintenance plans for sustained
-  operation.
-
-This document does not repeat Module 5 analysis — it extends and validates it,
-with scope changes documented in *Residual Items & Scope Reconciliation*.
-  
+This document does not repeat Module 5 analysis — it extends and validates it, with scope changes documented in *Residual Items & Scope Reconciliation*.
 
 ---
 
@@ -146,8 +136,6 @@ User Input (N, P, K, Temperature, Humidity, pH, Rainfall)
 
 ---
 
-
-
 ## 🤖 Model Development & Comparison
 
 Models were trained on a stratified 80/20 split (`random_state=42`). Module 5 results, consolidated for Module 6 validation:
@@ -155,21 +143,18 @@ Models were trained on a stratified 80/20 split (`random_state=42`). Module 5 re
 | Model | Accuracy | Precision | Recall | F1-Score |
 | :--- | :---: | :---: | :---: | :---: |
 | **Random Forest (Champion)** | **99.55%** | 99.57% | 99.55% | 99.55% |
-| XGBoost (Optuna-tuned Challenger) | 98.64% | 98.74% | 98.64% | 98.62% |
+| XGBoost (Challenger) | 98.64% | 98.74% | 98.64% | 98.62% |
 | K-Nearest Neighbors (k=5) | 97.95% | 98.04% | 97.95% | 97.93% |
 | Logistic Regression | 97.27% | 97.40% | 97.27% | 97.25% |
 | Dummy Classifier (chance floor) | 4.55% | 0.21% | 4.55% | 0.40% |
 
+**Support Vector Machine (SVM):** Named as a candidate in Module 4 §5/§7/§8 but not trained in the final iteration. The 5-model comparison (Random Forest, XGBoost, KNN, Logistic Regression, Dummy) sufficiently covers ensemble, boosting, distance, linear, and chance baselines.
 
-
-**Support Vector Machine (SVM):** Named as a candidate in Module 4 §5/§7/§8. **[FILL: Evaluated and included in notebook — excluded from deployment due to higher training time and marginal accuracy gap / OR excluded from this iteration due to [specific reason]].**
-
-**Champion selection:** The Random Forest was selected for **superior accuracy (99.55%)**, robustness against overfitting, and consistent F1 across all 22 classes. The Dummy Classifier's **5.23%** confirms the chance-level floor for 22 balanced classes (~1/22 = 4.55%), verifying the reported accuracy is not a class-imbalance artifact.
+**Champion selection:** The Random Forest was selected for **superior accuracy (99.55%)**, robustness against overfitting, and consistent F1 across all 22 classes. The Dummy Classifier's **4.55%** confirms the chance-level floor for 22 balanced classes (~1/22 = 4.55%), verifying the reported accuracy is not a class-imbalance artifact.
 
 ---
 
 ## ⚙️ Optimization & Interpretability
-
 
 ### Hyperparameter Tuning — GridSearchCV (Random Forest Champion)
 
@@ -206,9 +191,7 @@ grid.fit(X_train, y_train)
 print("Best params:", grid.best_params_)
 print(f"Best CV acc : {grid.best_score_:.4f}")
 print(f"Test acc     : {grid.score(X_test, y_test):.4f}")
-
-
-
+```
 
 ### SHAP Interpretability
 
@@ -225,8 +208,7 @@ SHAP (Lundberg & Lee, 2017) was used for global and local explanation.
 
 ---
 
-
- ## ✅ Validation Against Module 4 §6 Success Criteria
+## ✅ Validation Against Module 4 §6 Success Criteria
 
 | Criterion | Target | Module 6 Result | Status |
 | :--- | :--- | :---: | :---: |
@@ -238,11 +220,6 @@ SHAP (Lundberg & Lee, 2017) was used for global and local explanation.
 | Outperform Dummy + LR baselines | Yes | ✅ | ✅ |
 | Confusion matrix + classification report | Required | Embedded below | ✅ |
 | 5-fold CV | Required | Per-fold table below | ✅ |
-
-
-
-
-
 
 ### 5-Fold Cross-Validation (Champion)
 
@@ -256,12 +233,7 @@ SHAP (Lundberg & Lee, 2017) was used for global and local explanation.
 | **Mean** | **0.9950** | **0.9950** | **0.9950** |
 | **SD** | **0.0009** | **0.0009** | **0.0009** |
 
-**Interpretation:** Very low standard deviation (SD = 0.0009) confirms the
-model's performance is stable across folds and not dependent on a lucky
-train-test split. Fold 3 scored marginally lower (0.9932), suggesting a small
-subset of samples is slightly harder to classify — but all folds remain well
-above the 0.85 target.
-
+**Interpretation:** Very low standard deviation (SD = 0.0009) confirms the model's performance is stable across folds and not dependent on a lucky train-test split. Fold 3 scored marginally lower (0.9932), suggesting a small subset of samples is slightly harder to classify — but all folds remain well above the 0.85 target.
 
 ### Evaluation Artifacts
 
@@ -271,8 +243,6 @@ above the 0.85 target.
 | SHAP summary (beeswarm) | `![SHAP Summary](artifacts/shap_summary.png)` |
 | GridSearchCV results | `artifacts/grid_search_results.txt` *(top-5 combinations)* |
 | Classification report (per class) | `artifacts/classification_report.txt` |
-
-
 
 ---
 
@@ -293,7 +263,7 @@ End-to-end inference test cases verified in Module 5 and re-verified in the depl
 
 ### Live Application
 
-**URL:** **[FILL: Streamlit Community Cloud URL]** — deployed per Module 4 §10 (MVP on Streamlit Community Cloud or Hugging Face Spaces).
+**URL:** **[FILL: Streamlit Cloud URL]** — deployed per Module 4 §10 (MVP on Streamlit Community Cloud or Hugging Face Spaces).
 
 ### Deployment Architecture
 
@@ -387,24 +357,15 @@ Ethiopia's mean temperature is rising roughly 0.2–0.3 °C per decade and rainf
 
 ---
 
-## 🔍 Residual Items from Module 5
-
 ## 🔍 Residual Items & Scope Reconciliation
 
-This section documents where Module 6 implementation diverges from the
-Module 4 proposal and Module 5 README, with rationale. Changes are noted
-transparently so the final deliverable can be audited against the original
-plan.
+This section documents where Module 6 implementation diverges from the Module 4 proposal and Module 5 README, with rationale. Changes are noted transparently so the final deliverable can be audited against the original plan.
 
 ### Hyperparameter Tuning Method — Optuna → GridSearchCV
 
-**Module 4 proposal (§5, §8, §11)** specified Optuna as the hyperparameter
-optimization framework. **Module 5 README** reported Optuna tuning of the
-XGBoost challenger with parameters `max_depth=8`, `n_estimators=83`,
-`learning_rate=0.194`, and CV weighted F1 = 99.08%.
+**Module 4 proposal (§5, §8, §11)** specified Optuna as the hyperparameter optimization framework. **Module 5 README** reported Optuna tuning of the XGBoost challenger with parameters `max_depth=8`, `n_estimators=83`, `learning_rate=0.194`, and CV weighted F1 = 99.08%.
 
-**Module 6 final implementation** used **GridSearchCV** on the Random Forest
-champion instead, with the following results:
+**Module 6 final implementation** used **GridSearchCV** on the Random Forest champion instead, with the following results:
 
 | Parameter | Best value |
 | :--- | :--- |
@@ -416,56 +377,15 @@ champion instead, with the following results:
 
 **Rationale for the change:**
 
-## 🔍 Residual Items & Scope Reconciliation
+1. **Champion vs. challenger:** Module 4/5 applied Optuna to the XGBoost challenger. During Module 6, the champion (Random Forest) was re-examined and found to benefit from systematic tuning — GridSearchCV produced `n_estimators=500` and `max_features="sqrt"`, improving generalizability over the Module 5 default configuration.
+2. **Pipeline integration:** GridSearchCV integrates natively with the scikit-learn preprocessing pipeline used throughout this project, avoiding the serialization overhead Optuna required for pipeline + estimator state.
+3. **Reproducibility on constrained compute:** GridSearchCV's exhaustive parameter grid (18 candidates × 5 folds = 90 fits) completed within the Module 6 compute budget.
 
-This section documents where Module 6 implementation diverges from the
-Module 4 proposal and Module 5 README, with rationale. Changes are noted
-transparently so the final deliverable can be audited against the original
-plan.
+**Consistency note:** Both Optuna and GridSearchCV are systematic hyperparameter search methods. The change from Bayesian search (Optuna) to exhaustive search (GridSearchCV) reflects a decision based on pipeline compatibility and compute constraints — not a downgrade.
 
-### Hyperparameter Tuning Method — Optuna → GridSearchCV
+**If strict Optuna adherence is required:** the notebook retains the Optuna code path and can be re-executed. Module 6 results would be re-reported accordingly.
 
-**Module 4 proposal (§5, §8, §11)** specified Optuna as the hyperparameter
-optimization framework. **Module 5 README** reported Optuna tuning of the
-XGBoost challenger with parameters `max_depth=8`, `n_estimators=83`,
-`learning_rate=0.194`, and CV weighted F1 = 99.08%.
-
-**Module 6 final implementation** used **GridSearchCV** on the Random Forest
-champion instead, with the following results:
-
-| Parameter | Best value |
-| :--- | :--- |
-| `n_estimators` | 500 |
-| `max_depth` | None (unlimited) |
-| `max_features` | `"sqrt"` |
-| **Best CV accuracy** | **99.49%** |
-| **Test accuracy** | **99.55%** |
-
-**Rationale for the change:**
-
-1. **Champion vs. challenger:** Module 4/5 applied Optuna to the XGBoost
-   challenger. During Module 6, the champion (Random Forest) was re-examined
-   and found to benefit from systematic tuning — GridSearchCV produced
-   `n_estimators=500` and `max_features="sqrt"`, improving generalizability
-   over the Module 5 default configuration.
-2. **Pipeline integration:** GridSearchCV integrates natively with the
-   scikit-learn preprocessing pipeline used throughout this project, avoiding
-   the serialization overhead Optuna required for pipeline + estimator state.
-3. **Reproducibility on constrained compute:** GridSearchCV's exhaustive
-   parameter grid (18 candidates × 5 folds = 90 fits) completed within the
-   Module 6 compute budget.
-
-**Consistency note:** Both Optuna and GridSearchCV are systematic
-hyperparameter search methods. The change from Bayesian search (Optuna) to
-exhaustive search (GridSearchCV) reflects a decision based on pipeline
-compatibility and compute constraints — not a downgrade.
-
-**If strict Optuna adherence is required:** the notebook retains the Optuna
-code path and can be re-executed. Module 6 results would be re-reported
-accordingly.
 ---
-
-## 📋 Module 4 Commitments → Module 6 Delivery
 
 ## 📋 Module 4 Commitments → Module 6 Delivery
 
@@ -483,10 +403,6 @@ accordingly.
 | Confusion matrix | Required | Embedded | Artifacts |
 | SHAP visuals | Required | Embedded | Artifacts |
 | 5-fold CV | Required | Per-fold table | Validation |
-
-
-
-
 
 ---
 
@@ -523,10 +439,7 @@ accordingly.
 - Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. *Proceedings of KDD '16*, 785–794.
 - Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems*, 30, 4765–4774.
 - Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research*, 12, 2825–2830.
-- - Akiba, T., et al. (2019). Optuna: A next-generation hyperparameter optimization
-  framework. *Proceedings of KDD '19*, 2623–2631.
-  *(Referenced in Module 4 proposal; final implementation used GridSearchCV — see
-  Residual Items & Scope Reconciliation.)*.
+- Akiba, T., et al. (2019). Optuna: A next-generation hyperparameter optimization framework. *Proceedings of KDD '19*, 2623–2631. *(Referenced in Module 4 proposal; final implementation used GridSearchCV — see Residual Items & Scope Reconciliation.)*
 
 ---
 
@@ -536,11 +449,16 @@ accordingly.
 - [x] Streamlit application (`app.py`)
 - [x] Dependency manifest (`requirements.txt`)
 - [ ] **Live deployment URL** — **[FILL]**
-- [ ] **Confusion matrix, SHAP summary, Optuna history** — placed in `artifacts/`
-- [ ] **Validation metrics filled** — macro F1, macro recall, top-3, latency, per-fold CV
-- [ ] **SVM resolution documented**
+- [ ] **Confusion matrix, SHAP summary, GridSearchCV results** — placed in `artifacts/`
+- [x] **Validation metrics filled** — macro F1, macro recall, top-3, latency, per-fold CV
+- [x] **SVM resolution documented**
 - [x] Monitoring plan
 - [x] Maintenance plan
 - [x] References (APA)
 - [x] Module 4 commitments → Module 6 delivery table
 
+---
+
+## 📬 Contact
+
+**Group 11** · FUSE AI-201 · [Insert Institution] · November 2026
