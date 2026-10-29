@@ -146,10 +146,7 @@ User Input (N, P, K, Temperature, Humidity, pH, Rainfall)
 
 ---
 
-## 🤖 Model Development & Comparison
 
-
-Models were trained on a stratified 80/20 split (`random_state=42`). Module 5 results, consolidated for Module 6 validation:
 
 ## 🤖 Model Development & Comparison
 
@@ -228,7 +225,6 @@ SHAP (Lundberg & Lee, 2017) was used for global and local explanation.
 
 ---
 
-## ✅ Validation Against Module 4 §6 Success Criteria
 
  ## ✅ Validation Against Module 4 §6 Success Criteria
 
@@ -246,7 +242,7 @@ SHAP (Lundberg & Lee, 2017) was used for global and local explanation.
 
 
 
-### 5-Fold Cross-Validation (Champion)
+
 
 ### 5-Fold Cross-Validation (Champion)
 
@@ -266,7 +262,6 @@ train-test split. Fold 3 scored marginally lower (0.9932), suggesting a small
 subset of samples is slightly harder to classify — but all folds remain well
 above the 0.85 target.
 
-### Evaluation Artifacts
 
 ### Evaluation Artifacts
 
