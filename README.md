@@ -328,7 +328,8 @@ Streamlit Community Cloud retains deployment history. Rollback = revert `main` t
 ### FastAPI and Containerization (Module 4 §10 Pilot Scope)
 
 Module 4 §10 lists FastAPI serving and Docker containerization as **pilot-scope** items. These are scoped out of the current Module 6 deliverable per Module 4 §7 ("optional FastAPI endpoint") and reserved for post-course pilot deployment. The current single-service Streamlit deployment satisfies the Module 6 deployment requirement.
-
+Source code for the FastAPI pilot service is available in `backend/`
+(`app.py`, `requirements.txt`, `Dockerfile`) for post-course deployment.
 ---
 
 ## 🛡 Monitoring Plan
