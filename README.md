@@ -1,4 +1,4 @@
- 🌾 Intelligent Crop Recommendation System Using Machine Learning for Precision Agriculture
+🌾 Intelligent Crop Recommendation System Using Machine Learning for Precision Agriculture
 
 ### Module 6: Deployment, Validation, Monitoring & Maintenance
 
@@ -370,6 +370,21 @@ Ethiopia's mean temperature is rising roughly 0.2–0.3 °C per decade and rainf
 4. **Live weather integration** — GPS → NMA/OpenWeather API lookup blended with measured soil values
 5. **Conformal prediction** — calibrated intervals rather than point confidence
 6. **Champion-challenger disagreement flagging** — if RF and XGBoost disagree, surface as low-confidence
+
+---
+
+## API Reference
+
+**Base URL:** `http://localhost:8000` (dev) · `https://<space>.hf.space` (prod)
+**OpenAPI spec:** [openapi.json](./openapi.json) · **Interactive docs:** `/docs`
+
+### `GET /health`
+Liveness + artifact integrity check.
+
+**Response 200:**
+```json
+{ "status": "ok", "model": "RandomForestClassifier",
+  "n_classes": 22, "test_accuracy": 0.9932 }
 
 ---
 
