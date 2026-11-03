@@ -113,6 +113,43 @@ The Kaggle dataset reflects South Asian conditions. Several of its 22 classes (j
 
 ---
 
+## 🚜 Reaching Smallholders — Pilot & Future Paths
+
+### How the pilot reaches smallholders
+
+The Streamlit app is designed to be used primarily by **extension agents and rural development workers**, who serve as intermediaries between the AI system and the smallholder. An agent opens the app on a smartphone, enters the farmer's soil and climate values, receives a recommendation with confidence score, and delivers it to the farmer in person, by phone, or by SMS.
+
+This **indirect reach path** is realistic for Ethiopia's context, where:
+
+- Many smallholders lack smartphone access or reliable data
+- Extension agents are the trusted, existing advisory channel
+- Face-to-face delivery builds trust that a raw app cannot
+
+### Planned direct-reach channels (post-pilot)
+
+To reach smallholders **directly** — without an intermediary — the following channels are planned:
+
+| Channel | Description | Timeline |
+| :--- | :--- | :--- |
+| **SMS gateway** | Farmer texts soil values, receives crop recommendation | Post-pilot |
+| **USSD service** | Farmer dials a short code, navigates a menu | Requires Ethio Telecom partnership |
+| **Voice IVR** | Farmer calls a hotline, hears recommendation in Amharic/Afaan Oromoo | Requires telecom + TTS/STT |
+| **Offline mobile app** | ONNX-packaged model embedded in Android app | Post-pilot |
+| **WhatsApp/Telegram bot** | Chat-based recommendation | Post-pilot |
+
+### Why direct-reach channels are not in this iteration
+
+Direct channels require infrastructure and partnerships beyond the scope of an academic pilot:
+
+- **SMS/USSD** — requires Ethio Telecom or aggregator agreement
+- **Voice IVR** — requires telephony contract + speech data in local languages
+- **Offline app** — requires Play Store account, ONNX export pipeline, device testing
+- **WhatsApp/Telegram** — requires Meta/Telegram bot registration and hosting
+
+These channels are documented here so the reach strategy is clear to reviewers, and so future work can prioritize them once pilot validation and partnerships are in place.
+
+---
+
 ## 🏗 System Architecture
 
 ```text
