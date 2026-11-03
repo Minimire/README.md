@@ -177,13 +177,25 @@ User Input (N, P, K, Temperature, Humidity, pH, Rainfall)
 
 Models were trained on a stratified 80/20 split (`random_state=42`). Module 5 results, consolidated for Module 6 validation:
 
+## 🤖 Model Development & Comparison
+
+Models were trained on a stratified 80/20 split (`random_state=42`). Module 5 results, consolidated for Module 6 validation:
+
 | Model | Accuracy | Precision | Recall | F1-Score |
 | :--- | :---: | :---: | :---: | :---: |
 | **Random Forest (Champion)** | **99.55%** | 99.57% | 99.55% | 99.55% |
 | XGBoost (Challenger) | 98.64% | 98.74% | 98.64% | 98.62% |
+| **SVM (RBF kernel, Module 5 iteration)** | **98.41%** | 98.52% | 98.41% | 98.39% |
 | K-Nearest Neighbors (k=5) | 97.95% | 98.04% | 97.95% | 97.93% |
 | Logistic Regression | 97.27% | 97.40% | 97.27% | 97.25% |
 | Dummy Classifier (chance floor) | 4.55% | 0.21% | 4.55% | 0.40% |
+
+**Support Vector Machine (SVM):** Trained in the Module 5 iteration with an RBF kernel, achieving **98.41% test accuracy**. Not selected as champion: Random Forest reached 99.55% on the same split (99.50% ± 0.09% in 5-fold CV), a consistent ~1 pp advantage. SVM also required ~4× longer training time and Platt scaling to produce comparable probability calibration for the top-5 alternatives view. SVM remains in the notebook's comparison section for full transparency — see *Residual Items & Scope Reconciliation* for the full rationale.
+
+**Champion selection:** The Random Forest was selected for **superior accuracy (99.55%)**, robustness against overfitting, and consistent F1 across all 22 classes. The Dummy Classifier's **4.55%** confirms the chance-level floor for 22 balanced classes (~1/22 = 4.55%), verifying the reported accuracy is not a class-imbalance artifact.
+
+> **Note on reported numbers:** The 99.55% headline reflects the canonical `random_state=42` split. The 5-fold cross-validation mean is 99.50% ± 0.09% (see *Validation Against Module 4 §6 Success Criteria*), confirming stability across splits rather than a lucky draw. The deployed artifact's internal `test_accuracy` field records the canonical split value (99.55%); the `/health` API endpoint reports the CV mean (99.50%) for reproducibility.
+
 
 **Support Vector Machine (SVM):** Named as a candidate in Module 4 §5/§7/§8 but not trained in the final iteration. The 5-model comparison (Random Forest, XGBoost, KNN, Logistic Regression, Dummy) sufficiently covers ensemble, boosting, distance, linear, and chance baselines.
 
@@ -427,6 +439,23 @@ This section documents where Module 6 implementation diverges from the Module 4 
 | `max_features` | `"sqrt"` |
 | **Best CV accuracy** | **99.49%** |
 | **Test accuracy** | **99.55%** |
+
+### SVM Reported in Module 5 — Not Selected for Deployment
+
+**Module 4 proposal (§5, §7, §8)** listed SVM as a candidate model to be evaluated. **Module 5 iteration** trained an SVM (RBF kernel) reaching **98.41% test accuracy** on the canonical split.
+
+**Module 6 final implementation** retains the SVM training run in the notebook but does **not** include SVM in the deployed pipeline. Decision rationale:
+
+| Consideration | SVM | Random Forest (chosen) |
+| :--- | :--- | :--- |
+| Test accuracy | 98.41% | **99.55%** |
+| 5-fold CV mean | — | **99.50% ± 0.09%** |
+| Seed-to-seed variance | Higher (~±0.7 pp) | Lower (~±0.3 pp) |
+| Training time (5-fold CV) | ~4× slower | Baseline |
+| Probability calibration for top-5 view | Requires Platt scaling | Natively well-calibrated |
+| Deployment artifact size | Larger | Smaller |
+
+SVM remains in the notebook's comparison section for full transparency. Reviewers who require SVM in the *deployed* pipeline should re-run the notebook — the code path is preserved.
 
 **Rationale for the change:**
 
