@@ -132,8 +132,6 @@ To reach smallholders directly — without an intermediary — the following cha
 
 **Why direct-reach channels are not in this iteration:** Direct channels require infrastructure and partnerships beyond the scope of an academic pilot (SMS/USSD requires telecom agreement, IVR requires telephony contracts, etc.). These channels are documented here so the reach strategy is clear to reviewers, and so future work can prioritize them once pilot validation and partnerships are in place.
 
----
-
 ## 🏗 System Architecture
 
 ```text
@@ -152,18 +150,4 @@ Random Forest Champion (.pkl)
 Crop Prediction + Confidence Score
       │
       ▼
-Streamlit User Interface 
-
-
----
-
-
-
-
-Model Accuracy Precision Recall F1-Score
-Random Forest (Champion) 99.55% 99.57% 99.55% 99.55%
-XGBoost (Challenger) 98.64% 98.74% 98.64% 98.62%
-SVM (RBF kernel, Module 5 iteration) 98.41% 98.52% 98.41% 98.39%
-K-Nearest Neighbors (k=5) 97.95% 98.04% 97.95% 97.93%
-Logistic Regression 97.27% 97.40% 97.27% 97.25%
-Dummy Classifier (chance floor) 4.55% 0.21% 4.55% 0.40%
+Streamlit User Interface
