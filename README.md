@@ -311,7 +311,7 @@ End-to-end inference test cases verified in Module 5 and re-verified in the depl
 
 ### Live Application
 
-**URL:** **[FILL: Streamlit Cloud URL]** — deployed per Module 4 §10 (MVP on Streamlit Community Cloud or Hugging Face Spaces).
+URL: https://crop-recomm-app.streamlit.app — deployed per Module 4 §10 (MVP on Streamlit Community Cloud or Hugging Face Spaces).
 
 ### Deployment Architecture
 
@@ -479,7 +479,7 @@ SVM remains in the notebook's comparison section for full transparency. Reviewer
 | Latency | < 1 s | **98.01 ms (p95)** | Validation |
 | Outperform baselines | Yes | ✅ | Model Comparison |
 | SVM evaluated | Required | Excluded — SVM was scoped in Module 4 but not trained in the final iteration; the 5-model comparison (RF, XGBoost, KNN, LR, Dummy) sufficiently covers ensemble, boosting, distance, linear, and chance baselines | Model Comparison |
-| Streamlit Cloud deploy | MVP | **[FILL URL]** | Deployment |
+| Streamlit Cloud deploy | MVP | https://crop-recomm-app.streamlit.app | Deployment |
 | FastAPI / Docker | Optional pilot | Source in `backend/`; deployment status noted in §Deployment | Deployment |
 | Confusion matrix | Required | Embedded | Artifacts |
 | SHAP visuals | Required | Embedded | Artifacts |
@@ -529,7 +529,7 @@ SVM remains in the notebook's comparison section for full transparency. Reviewer
 - [x] Trained model artifact (`crop_recommendation_model.pkl`)
 - [x] Streamlit application (`app.py`)
 - [x] Dependency manifest (`requirements.txt`)
-- [ ] **Live deployment URL** — **[FILL]**
+- [ ] **Live deployment URL** — **[https://crop-recomm-app.streamlit.app]**
 - [ ] **Confusion matrix, SHAP summary, GridSearchCV results** — placed in `artifacts/`
 - [x] **Validation metrics filled** — macro F1, macro recall, top-3, latency, per-fold CV
 - [x] **SVM resolution documented**
