@@ -153,13 +153,9 @@ Crop Prediction + Confidence Score
       │
       ▼
 Streamlit User Interface
-```
 
----
 
-🤖 Model Development & Comparison
 
-Models were trained on a stratified 80/20 split (random_state=42). Module 5 results, consolidated for Module 6 validation:
 
 Model Accuracy Precision Recall F1-Score
 Random Forest (Champion) 99.55% 99.57% 99.55% 99.55%
@@ -169,19 +165,7 @@ K-Nearest Neighbors (k=5) 97.95% 98.04% 97.95% 97.93%
 Logistic Regression 97.27% 97.40% 97.27% 97.25%
 Dummy Classifier (chance floor) 4.55% 0.21% 4.55% 0.40%
 
-Support Vector Machine (SVM): Trained in the Module 5 iteration with an RBF kernel, achieving 98.41% test accuracy. Not selected as champion: Random Forest reached 99.55% on the same split (99.50% ± 0.09% in 5-fold CV), a consistent ~1 pp advantage. SVM also required ~4× longer training time and Platt scaling to produce comparable probability calibration for the top-5 alternatives view. SVM remains in the notebook's comparison section for full transparency — see Residual Items & Scope Reconciliation for the full rationale.
 
-Champion selection: The Random Forest was selected for superior accuracy (99.55%), robustness against overfitting, and consistent F1 across all 22 classes. The Dummy Classifier's 4.55% confirms the chance-level floor for 22 balanced classes (~1/22 = 4.55%), verifying the reported accuracy is not a class-imbalance artifact.
-
-Note on reported numbers: The 99.55% headline reflects the canonical random_state=42 split. The 5-fold cross-validation mean is 99.50% ± 0.09% (see Validation Against Module 4 §6 Success Criteria), confirming stability across splits rather than a lucky draw.
-
----
-
-⚙️ Optimization & Interpretability
-
-Hyperparameter Tuning — GridSearchCV (Random Forest Champion)
-
-Hyperparameter optimization was performed on the Random Forest champion using GridSearchCV with 5-fold stratified cross-validation, evaluating 18 candidate parameter combinations (90 total fits).
 
 Parameter Best value
 n_estimators 500
@@ -190,7 +174,6 @@ max_features "sqrt"
 Best CV accuracy 99.49%
 Test accuracy 99.55%
 
-```python
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 
@@ -213,25 +196,6 @@ grid.fit(X_train, y_train)
 print("Best params:", grid.best_params_)
 print(f"Best CV acc : {grid.best_score_:.4f}")
 print(f"Test acc    : {grid.score(X_test, y_test):.4f}")
-```
-
-SHAP Interpretability
-
-SHAP (Lundberg & Lee, 2017) was used for global and local explanation.
-
-Global feature ranking:
-
-1. Humidity
-2. Rainfall
-3. Potassium (K)
-4. Nitrogen (N)
-5. Phosphorus (P)
-
-Interpretation: Climatic variables separate broad crop families; soil nutrients resolve crop type within similar climates. Local explanation allows extension agents to inspect per-prediction feature contributions — critical for validating recommendations before advising farmers.
-
----
-
-✅ Validation Against Module 4 §6 Success Criteria
 
 Criterion Target Module 6 Result Status
 Macro F1 (primary) 0.85 0.9955 ✅ Exceeded
@@ -243,7 +207,7 @@ Outperform Dummy + LR baselines Yes ✅ ✅
 Confusion matrix + classification report Required Embedded below ✅
 5-fold CV Required Per-fold table below ✅
 
-5-Fold Cross-Validation (Champion)
+
 
 Fold Accuracy Macro F1 Macro Recall
 1 0.9955 0.9955 0.9955
@@ -254,9 +218,6 @@ Fold Accuracy Macro F1 Macro Recall
 Mean 0.9950 0.9950 0.9950
 SD 0.0009 0.0009 0.0009
 
-Interpretation: Very low standard deviation (SD = 0.0009) confirms the model's performance is stable across folds and not dependent on a lucky train-test split. Fold 3 scored marginally lower (0.9932), suggesting a small subset of samples is slightly harder to classify — but all folds remain well above the 0.85 target.
-
-Evaluation Artifacts
 
 Artifact File
 Confusion matrix (22×22) ![Confusion Matrix](artifacts/confusion_matrix.png)
@@ -264,27 +225,11 @@ SHAP summary (beeswarm) ![SHAP Summary](artifacts/shap_summary.png)
 GridSearchCV results artifacts/grid_search_results.txt (top-5 combinations)
 Classification report (per class) artifacts/classification_report.txt
 
----
-
-✅ System Testing & Validation
-
-End-to-end inference test cases verified in Module 5 and re-verified in the deployed app:
 
 Test Inputs Prediction Confidence Result
 TC-1: Normal conditions N=90, P=42, K=43, 20.8°C, 82.1%, pH 6.5, 202.9 mm Maize 98.0% ✅ Pass
 TC-2: Extreme drought N=20, P=40, K=20, 48.0°C, 45%, pH 7.0, 5.0 mm Moth Beans 41.5% ✅ Pass
 
-Observation: High confidence under in-distribution inputs; appropriately reduced confidence (41.5%) under out-of-distribution drought inputs demonstrates calibrated uncertainty rather than overconfident extrapolation.
-
----
-
-🚀 Deployment
-
-Live Application
-
-URL: https://crop-recomm-app.streamlit.app — deployed per Module 4 §10 (MVP on Streamlit Community Cloud).
-
-Deployment Architecture
 
 Layer Technology Notes
 Frontend Streamlit Single-page input form + result card
@@ -292,9 +237,6 @@ Model serving Embedded .pkl (joblib) Loaded at app startup via @st.cache_resourc
 Runtime Python 3.12 Pinned in runtime.txt and requirements.txt
 Hosting Streamlit Community Cloud Auto-redeploy on main branch push
 
-Reproduce Locally
-
-```bash
 git clone https://github.com/Minimire/CROP-RECOMMENDATION-app.git
 cd CROP-RECOMMENDATION-app
 python3 -m venv venv
@@ -302,19 +244,7 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 streamlit run app.py
 # → http://localhost:8501
-```
 
-Rollback Procedure
-
-Streamlit Community Cloud retains deployment history. Rollback = revert main to the last known-good commit and push. The model artifact is versioned via joblib hash documented in each release note.
-
-FastAPI and Containerization (Module 4 §10 Pilot Scope)
-
-Module 4 §10 lists FastAPI serving and Docker containerization as pilot-scope items. These are scoped out of the current Module 6 deliverable per Module 4 §7 ("optional FastAPI endpoint") and reserved for post-course pilot deployment. The current single-service Streamlit deployment satisfies the Module 6 deployment requirement. Source code for the FastAPI pilot service is available in backend/ for post-course deployment.
-
----
-
-🛡 Monitoring Plan
 
 Signal Method Cadence Alert threshold
 Feature drift Kolmogorov–Smirnov test on live inputs vs. training baseline (Evidently AI) Weekly KS > 0.1 or p < 0.05
@@ -324,9 +254,6 @@ Performance drift Rolling accuracy on any labelled feedback Monthly Drop > 5% �
 Latency p50 / p95 / p99 response time Continuous p95 > 1 s
 Availability Uptime check Continuous Any downtime > 5 min
 
----
-
-🔧 Maintenance Plan
 
 Area Policy
 Retraining cadence Quarterly routine; event-triggered on drift alert
@@ -336,81 +263,6 @@ Dependency updates Monthly security patches; quarterly major-version review
 Documentation README updated with each model release
 Data refresh EthioSIS + NMA ingestion planned for first localized retrain
 
----
-
-🌡 Climate Adaptability
-
-Ethiopia's mean temperature is rising roughly 0.2–0.3 °C per decade and rainfall variability is increasing — the training environmental ranges will progressively diverge from field conditions.
-
-Planned measures:
-
-· Drift monitoring (above) to detect climate-driven input shift
-· Quarterly retraining on latest NMA + EthioSIS data
-· CMIP6 scenario simulation — pre-compute crop suitability under SSP2-4.5 and SSP5-8.5 for 2030/2050
-· Live weather integration — GPS → NMA/OpenWeather API lookup blended with measured soil values
-· Conformal prediction — calibrated intervals rather than point confidence
-· Champion-challenger disagreement flagging — if RF and XGBoost disagree, surface as low-confidence
-
----
-
-⚠️ Limitations & Pilot Status
-
-· Dataset origin mismatch: Kaggle dataset is India-specific and synthetically balanced (100 samples/class). The 99.55% accuracy reflects clean, well-separated benchmark data — real-world field data will be noisier and requires re-validation.
-· Soil physical properties (texture, bulk density) and topographic variables (altitude, slope) are omitted — a material gap for Ethiopia's altitude gradients.
-· The model is a static snapshot; drift monitoring and retraining are planned, not yet operating.
-· Recommendations provide technical suitability only — not market prices, input costs, or risk-adjusted profitability.
-· Confidence scores are softmax probabilities, not calibrated frequentist intervals.
-· This system is a pilot. Production use requires Ethiopian local calibration.
-
----
-
-🔮 Future Roadmap
-
-1. Localized retraining on EthioSIS + CSA data by agro-ecological zone
-2. Live weather API integration (NMA / OpenWeather) replacing manual entry
-3. Offline mobile deployment via ONNX runtime (per Module 4 §13 risk mitigation)
-4. FastAPI + Docker microservice packaging for pilot scale
-5. Economic layer combining agronomic suitability with market price forecasts
-6. Pest and disease monitoring integration
-
----
-
-🔍 Residual Items & Scope Reconciliation
-
-This section documents where Module 6 implementation diverges from the Module 4 proposal and Module 5 README, with rationale. Changes are noted transparently so the final deliverable can be audited against the original plan.
-
-Hyperparameter Tuning Method — Optuna → GridSearchCV
-
-Module 4 proposal (§5, §8, §11) specified Optuna as the hyperparameter optimization framework. Module 5 README reported Optuna tuning of the XGBoost challenger with parameters max_depth=8, n_estimators=83, learning_rate=0.194, and CV weighted F1 = 99.08%.
-
-Module 6 final implementation used GridSearchCV on the Random Forest champion instead, with the results shown in the Optimization section above (Best CV: 99.49%, Test: 99.55%).
-
-Rationale for the change:
-
-1. Champion vs. challenger: Module 4/5 applied Optuna to the XGBoost challenger. During Module 6, the champion (Random Forest) was re-examined and found to benefit from systematic tuning — GridSearchCV produced n_estimators=500 and max_features="sqrt", improving generalizability over the Module 5 default configuration.
-2. Pipeline integration: GridSearchCV integrates natively with the scikit-learn preprocessing pipeline used throughout this project, avoiding the serialization overhead Optuna required for pipeline + estimator state.
-3. Reproducibility on constrained compute: GridSearchCV's exhaustive parameter grid (18 candidates × 5 folds = 90 fits) completed within the Module 6 compute budget.
-
-Consistency note: Both Optuna and GridSearchCV are systematic hyperparameter search methods. The change from Bayesian search (Optuna) to exhaustive search (GridSearchCV) reflects a decision based on pipeline compatibility and compute constraints — not a downgrade.
-
-SVM Reported in Module 5 — Not Selected for Deployment
-
-Module 4 proposal (§5, §7, §8) listed SVM as a candidate model to be evaluated. Module 5 iteration trained an SVM (RBF kernel) reaching 98.41% test accuracy on the canonical split. Module 6 final implementation retains the SVM training run in the notebook but does not include SVM in the deployed pipeline.
-
-Decision rationale:
-
-· Test accuracy: SVM (98.41%) vs Random Forest (99.55%)
-· 5-fold CV mean: Random Forest (99.50% ± 0.09%)
-· Seed-to-seed variance: SVM (Higher ~±0.7 pp) vs Random Forest (Lower ~±0.3 pp)
-· Training time (5-fold CV): SVM (~4× slower) vs Random Forest (Baseline)
-· Probability calibration: SVM (Requires Platt scaling) vs Random Forest (Natively well-calibrated)
-· Deployment artifact size: SVM (Larger) vs Random Forest (Smaller)
-
-SVM remains in the notebook's comparison section for full transparency. Reviewers who require SVM in the deployed pipeline should re-run the notebook — the code path is preserved.
-
----
-
-📋 Module 4 Commitments → Module 6 Delivery
 
 Module 4 Promise Target Module 6 Delivery Where
 Macro F1 0.85 0.9955 Validation
@@ -426,9 +278,6 @@ Confusion matrix Required Embedded Artifacts
 SHAP visuals Required Embedded Artifacts
 5-fold CV Required Per-fold table Validation
 
----
-
-👨‍👩‍👧‍👦 Team Contributions
 
 Member Contribution
 Mihret Endeshaw Problem identification, literature review, technical reporting
@@ -441,39 +290,3 @@ Sisay Yeshak Streamlit application development, UI design
 Milkoma Ayele Web prototype architecture, input validation
 Temesgen Teshome App integration, test execution, deployment, verification
 Boniyas Wagari QA, boundary testing, drought scenario validation
-
----
-
-💭 Group Reflection
-
-· Key learning: Executing the full AI lifecycle from problem scoping to deployment and monitoring.
-· Biggest challenge: Maintaining label-encoding parity across training, evaluation, and live inference.
-· Resolution: Serialized the preprocessing pipeline and label encoder alongside the model artifact to guarantee zero inference mismatch.
-· Teamwork: Role allocation across data engineering, modeling, deployment, and testing enabled parallel execution.
-· Module 6 insight: Deployment is not the finish line — monitoring and maintenance are what make a model trustworthy over time.
-
----
-
-📚 References
-
-· Aingle, A. (2020). Crop recommendation dataset [Data set]. Kaggle. https://www.kaggle.com/datasets/atharvaingle/crop-recommendation-dataset
-· Chen, T., & Guestrin, C. (2016). XGBoost: A scalable tree boosting system. Proceedings of KDD '16, 785–794.
-· Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. Advances in Neural Information Processing Systems, 30, 4765–4774.
-· Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830.
-· Akiba, T., et al. (2019). Optuna: A next-generation hyperparameter optimization framework. Proceedings of KDD '19, 2623–2631. (Referenced in Module 4 proposal; final implementation used GridSearchCV — see Residual Items & Scope Reconciliation.)
-
----
-
-📦 Submission Checklist
-
-☑ Trained model artifact (crop_recommendation_model.pkl)
-☑ Streamlit application (app.py)
-☑ Dependency manifest (requirements.txt)
-☑ Live deployment URL — https://crop-recomm-app.streamlit.app
-☑ Confusion matrix, SHAP summary, GridSearchCV results — placed in artifacts/
-☑ Validation metrics filled — macro F1, macro recall, top-3, latency, per-fold CV
-☑ SVM resolution documented
-☑ Monitoring plan
-☑ Maintenance plan
-☑ References (APA)
-☑ Module 4 commitments → Module 6 delivery table
