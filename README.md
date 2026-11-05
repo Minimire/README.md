@@ -22,7 +22,7 @@
 
 | **Primary Model** | Random Forest Classifier — 99.55% test accuracy |
 
-| **Live Application** | **[FILL: Streamlit Cloud URL]** |
+| **Live Application|**https://crop-recomm-app.sreamlit.app** |
 
  
 
@@ -528,7 +528,7 @@ End-to-end inference test cases verified in Module 5 and re-verified in the depl
 
  
 
-**URL:** **[FILL: Streamlit Cloud URL]** — deployed per Module 4 §10 (MVP on Streamlit Community Cloud or Hugging Face Spaces).
+**URL:-https://cop-recomm-app.streamlit.app — deployed per Module 4 §10 (MVP on Streamlit Community Cloud or Hugging Face Spaces).
 
  
 
@@ -556,7 +556,7 @@ End-to-end inference test cases verified in Module 5 and re-verified in the depl
 
 ```bash
 
-git clone https://github.com/<your-username>/crop-recommendation-system.git
+git clone https://github.com/<Minimire>/crop-recommendation-system.git
 
 cd crop-recommendation-system
 
@@ -830,9 +830,7 @@ This section documents where Module 6 implementation diverges from the Module 4 
 
 | Outperform baselines | Yes | ✅ | Model Comparison |
 
-| SVM evaluated | Required | Excluded — SVM was scoped in Module 4 but not trained in the final iteration; the 5-model comparison (RF, XGBoost, KNN, LR, Dummy) sufficiently covers ensemble, boosting, distance, linear, and chance baselines | Model Comparison |
-
-| Streamlit Cloud deploy | MVP | **[FILL URL]** | Deployment |
+| Streamlit Cloud deploy | MVP | **https://crop-recomm-app.streamlit.app** | Deployment |
 
 | FastAPI / Docker | Optional pilot | Source in `backend/`; deployment status noted in §Deployment | Deployment |
 
@@ -856,7 +854,7 @@ This section documents where Module 6 implementation diverges from the Module 4 
 
 | :--- | :--- |
 
-| Mihret Endeshaw | Problem identification, literature review, technical reporting |
+| Mihret Endeshaw | Problem identification, literature review, technical reporting,Streamlit application deployment |
 
 | Biniyam Meldeye | Problem identification, background study, documentation |
 
@@ -932,9 +930,9 @@ This section documents where Module 6 implementation diverges from the Module 4 
 
 - [x] Dependency manifest (`requirements.txt`)
 
-- [ ] **Live deployment URL** — **[FILL]**
+- [x] **Live deployment URL** — **(https://crop-recomm-app.streamlit.app)**
 
-- [ ] **Confusion matrix, SHAP summary, GridSearchCV results** — placed in `artifacts/`
+- [x] **Confusion matrix, SHAP summary, GridSearchCV results** — placed in `artifacts/`
 
 - [x] **Validation metrics filled** — macro F1, macro recall, top-3, latency, per-fold CV
 
@@ -958,5 +956,5 @@ This section documents where Module 6 implementation diverges from the Module 4 
 
  
 
-**Group 11** · FUSE AI-201 · [Insert Institution] · November 2026
+**Group 11** · [FUSE AI-201 ·FUSE COHORT 201,FLORIDA ] · November 2026
 
