@@ -106,6 +106,9 @@ streamlit run app.py
 # → App will open at http://localhost:8501
 
 
+----
+
+
 ## 👨‍👩‍👧‍👦 Team Contributions (Group 11)
 
 | Member | Core Contributions |
@@ -121,3 +124,4 @@ streamlit run app.py
 | **Temesgen Teshome** | Streamlit app integration, test execution, deployment |
 | **Boniyas Wagari** | QA, boundary testing, drought scenario validation |
 
+---
